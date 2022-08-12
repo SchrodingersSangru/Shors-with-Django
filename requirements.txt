@@ -1,0 +1,4 @@
+Django==2.0.12
+environ==1.0
+qiskit==0.37.1
+qiskit_ibmq_provider==0.18.3
