@@ -28,6 +28,11 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 
+import django_heroku
+django_heroku.settings(locals())
+
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
