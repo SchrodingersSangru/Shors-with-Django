@@ -1,0 +1,35 @@
+{% comment %} <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+
+    {% block content %}
+    <h1>Renew: {{ book_instance.book.title }}</h1>
+    <p>Borrower: {{ book_instance.borrower }}</p>
+    <p{% if book_instance.is_overdue %} class="text-danger"{% endif %}>Due date: {{ book_instance.due_back }}</p>
+
+    {% endblock %}
+</body>
+
+</html {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<body>
+
+  <pre id="myText" ></pre>
+  <h2> html page is working </h2>
+  <script>
+    var data =  respose  //{ output: response, bar: " " };
+
+    document.getElementById("myText").innerHTML = JSON.stringify(data, null, 4);
+    
+  </script>
+
+</body>
+
+</html
