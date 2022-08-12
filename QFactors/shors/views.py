@@ -65,7 +65,7 @@ class FactorizationView(View):
         
     
         print("Account enabled ...")
-        API_key = 'ee0757e41299179fb8fd3aab7236e79a12eda6a41c2e860c72fcb9a16274068b3f7c86a6b03428677bd874cfd2a41d90794800294648da41d0141a24dce55ce8'
+        API_key = '<Your-API-key>'
         # API_key = env('API_key')
         # # print(API_key)
         IBMQ.enable_account(API_key)
