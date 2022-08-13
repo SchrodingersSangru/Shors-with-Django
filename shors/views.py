@@ -7,6 +7,7 @@ from django.shortcuts import render
 import json
 import time as time
 
+from qiskit import QuantumCircuit, Aer
 from qiskit import IBMQ
 from qiskit.utils import QuantumInstance
 from qiskit.algorithms import Shor
@@ -37,7 +38,11 @@ environ.Env.read_env()
 
 class FactorizationView(View):
     
+    ## FactorizaionView to which takes the input and passes it to the IBMQ device.
+    
     template_name = "shors/home.html"
+    
+    ##defined form class
     form_class = FactorForm
     
     def get(self, request, *args, **kwargs):
@@ -58,24 +63,36 @@ class FactorizationView(View):
             print("number to factorise is ", Number)
         
         
-        
         # API_key = (f" '{API_key}' ")
         # API_key.value_to_string
         # print("API key is ", API_key )
         
-    
-        print("Account enabled ...")
-        API_key = '<Your-API-key>'
+        
+        print("Account enabled .....")
+        API_key = 'ee0757e41299179fb8fd3aab7236e79a12eda6a41c2e860c72fcb9a16274068b3f7c86a6b03428677bd874cfd2a41d90794800294648da41d0141a24dce55ce8'
         # API_key = env('API_key')
         # # print(API_key)
         IBMQ.enable_account(API_key)
+        
+        
         provider = IBMQ.get_provider(hub='ibm-q')
+        
+        
 
-                
-        backend = provider.get_backend(device)
+        if device == 'ibmqx2':
+            # aer_sim = Aer.get_backend('aer_simulator')
+            backend =IBMQ.get_backend('ibmqx2')
+        elif device == 'ibm_vigo':
+            backend = IBMQ.backend(name='ibmqx5')
+        else:
+        # provider = IBMQ.get_provider(hub='ibm-q')
+            backend = provider.get_backend(device)
+            
+        
         print("backend is ", backend)
         t1 = time.time()
-        factors = Shor(QuantumInstance(backend, shots=100, skip_qobj_validation=False)) #Function to run Shor's algorithm where 21 is the integer to be factored
+        #executing the shors algorithm on IBMq, on user defined backend. 
+        factors = Shor(QuantumInstance(backend, shots=100, skip_qobj_validation=True)) #Function to run Shor's algorithm where 21 is the integer to be factored
         
         result_dict = factors.factor(N=Number, a=2)
         result = result_dict.factors
@@ -86,13 +103,19 @@ class FactorizationView(View):
 
         response = JsonResponse({'result': str(result)})
         # response = dict({'result': str(result)})
+        
+        ##saving the data in the database
         save_data = FactorModel.objects.create(Number = Number, time=tot_time)
+        
+        
         # print("save data ", save_data)
         # form.save(save_data)
         
         
         # output = {'response': str(result), 'time': tot_time}
         print("factors of " + str(Number) + " are ", str(result))
+        
+        ## returns response 
         return response
     
         # return HttpResponse( json.dumps( output ) )
